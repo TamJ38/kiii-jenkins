@@ -1,10 +1,11 @@
 node {
     def app
     stage('Clone repository') {
-        checkout scm
+        // Update the repository URL
+        checkout([$class: 'Git', branches: [[name: '*/master']], credentialsId: 'dockerhub', url: 'https://github.com/TamJ38/kiii-jenkins.git'])
     }
     stage('Build image') {
-       app = docker.build("TamJ38/KIII_jenkins")
+       app = docker.build("tammy38/kiii-jenkins")
     }
     stage('Push image') {   
         docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
